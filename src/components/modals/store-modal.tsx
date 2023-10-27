@@ -19,7 +19,9 @@ import axios from 'axios'
 import { toast } from 'react-hot-toast'
 
 const formSchema = z.object({
-  name: z.string().min(1)
+  name: z.string().min(1, {
+    message: 'name store must be at least 1 characters'
+  })
 })
 
 export const StoreModal = () => {
@@ -51,7 +53,7 @@ export const StoreModal = () => {
   return (
     <Modal
       title='Crete store'
-      description='add a new store to manage products and categories'
+      description='Add a new store to manage products and categories'
       isOpen={storeModal.isOpen}
       onClose={storeModal.onClose}
     >

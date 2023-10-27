@@ -5,17 +5,17 @@ import React from 'react'
 
 const SetupLayout = async ({ children }: { children: React.ReactNode }) => {
   const { userId } = auth()
+
   if (!userId) {
     redirect('/sign-in')
   }
 
   const store = await prismadb.store.findFirst({
     where: {
-      userId
+      userId: userId
     }
   })
 
-  console.log('store', store)
   if (store) {
     redirect(`/${store.id}`)
   }

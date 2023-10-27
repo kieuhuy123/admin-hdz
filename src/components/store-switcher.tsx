@@ -4,7 +4,11 @@ import { useState } from 'react'
 import { useStoreModal } from '@/hooks/use-store-modal'
 import { Store } from '@prisma/client'
 import { useParams, useRouter } from 'next/navigation'
-import { Popover, PopoverTrigger } from '@/components/ui/popover'
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent
+} from '@/components/ui/popover'
 import { Button } from '@/components/ui/button'
 import {
   Command,
@@ -22,7 +26,6 @@ import {
   Store as StoreIcon
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { PopoverContent } from '@radix-ui/react-popover'
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>
 
