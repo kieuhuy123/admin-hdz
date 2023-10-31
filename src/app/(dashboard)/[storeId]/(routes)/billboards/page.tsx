@@ -1,35 +1,48 @@
+import { format } from 'date-fns'
+
 import prismadb from '@/lib/prismadb'
 import { auth } from '@clerk/nextjs'
 import { redirect } from 'next/navigation'
 import React from 'react'
 import { BillboardClient } from './component/client'
+import { BillboardColumn } from './component/columns'
 
-interface SettingPageProps {
+interface BillboardPageProps {
   params: {
     storeId: string
   }
 }
-const Billboards: React.FC<SettingPageProps> = async ({ params }) => {
+
+const Billboards: React.FC<BillboardPageProps> = async ({ params }) => {
   const { userId } = auth()
 
   if (!userId) {
     redirect('/sign-in')
   }
 
-  const store = await prismadb.store.findFirst({
+  const billboard = await prismadb.billboard.findMany({
     where: {
-      id: params.storeId,
-      userId
+      storeId: params.storeId
+    },
+    orderBy: {
+      createAt: 'desc'
     }
   })
 
-  if (!store) {
+  if (!billboard) {
     redirect('/')
   }
+
+  const formattedBillboards: BillboardColumn[] = billboard.map(item => ({
+    id: item.id,
+    label: item.label,
+    createdAt: format(item.createAt, 'MMMM do, yyyy')
+  }))
+
   return (
-    <div className='d-flex flex-col'>
+    <div className='flex flex-col'>
       <div className='flex-1 space-y-4 p-8 pt-6'>
-        <BillboardClient />
+        <BillboardClient data={formattedBillboards} />
       </div>
     </div>
   )
