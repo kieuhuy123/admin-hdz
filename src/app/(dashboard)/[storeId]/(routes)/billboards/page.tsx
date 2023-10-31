@@ -25,7 +25,7 @@ const Billboards: React.FC<BillboardPageProps> = async ({ params }) => {
       storeId: params.storeId
     },
     orderBy: {
-      createAt: 'desc'
+      createdAt: 'desc'
     }
   })
 
@@ -36,7 +36,7 @@ const Billboards: React.FC<BillboardPageProps> = async ({ params }) => {
   const formattedBillboards: BillboardColumn[] = billboard.map(item => ({
     id: item.id,
     label: item.label,
-    createdAt: format(item.createAt, 'MMMM do, yyyy')
+    createdAt: format(item.createdAt, 'MMMM do, yyyy')
   }))
 
   return (
