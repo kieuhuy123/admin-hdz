@@ -19,6 +19,7 @@ model Store {
   categories Category[] @relation("StoreToCategory")
   sizes Size[] @relation("StoreToSize")
   colors Color[] @relation("StoreToColor")
+  products Product[] @relation("StoreToProduct")
   createdAt       DateTime   @default(now())
   updatedAt       DateTime   @updatedAt
 }
@@ -42,6 +43,7 @@ model Category {
   storeId String // Foreign Key to Store
   billboard Billboard @relation(fields: [billboardId], references: [id])
   billboardId String // Foreign Key to Billboard
+  products Product[] @relation("CategoryToProduct")
   name String
   createdAt DateTime @default(now())
   updatedAt DateTime   @updatedAt
@@ -53,6 +55,7 @@ model Size {
   id String @id @default(uuid())
   store Store @relation("StoreToSize", fields: [storeId], references: [id])
   storeId String
+  products Product[] @relation("SizeToProduct")
   name String
   value String
   createdAt DateTime @default(now())
@@ -64,9 +67,46 @@ model Color {
   id String @id @default(uuid())
   store Store @relation("StoreToColor", fields: [storeId], references: [id])
   storeId String
+  products Product[] @relation("ColorToProduct")
   name String
   value String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   @@index([storeId])
+}
+
+model Product {
+  id String @id @default(uuid())
+  store Store @relation("StoreToProduct", fields: [storeId], references: [id])
+  storeId String  // Foreign Key to Store
+  category Category @relation("CategoryToProduct", fields: [categoryId], references: [id])
+  categoryId String // Foreign Key to Category
+  name String
+  price Decimal
+  isFeatured Boolean @default(false)
+  isArchived Boolean @default(false)
+  size Size @relation("SizeToProduct", fields: [sizeId], references: [id])
+  sizeId String   // Foreign Key to Size
+  color Color @relation("ColorToProduct", fields: [colorId], references: [id])
+  colorId String  // Foreign Key to Color
+  images Image[] // Relation to Image model
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+
+  @@index([storeId])
+  @@index([categoryId])
+  @@index([sizeId])
+  @@index([colorId])
+}
+
+model Image {
+  id String @id @default(uuid())
+  product Product @relation(fields: [producId], references: [id], onDelete: Cascade)
+  producId String // Foreign Key to Product
+  url String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@index([producId])
 }
