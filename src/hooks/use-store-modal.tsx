@@ -8,6 +8,6 @@ interface useStoreModalInterface {
 
 export const useStoreModal = create<useStoreModalInterface>(set => ({
   isOpen: false,
-  onOpen: () => set({ isOpen: true }),
-  onClose: () => set({ isOpen: false })
+  onOpen: async () => set({ isOpen: true }),
+  onClose: async () => set({ isOpen: false })
 }))
