@@ -16,35 +16,46 @@ export async function POST (
   req: Request,
   { params }: { params: { storeId: string } }
 ) {
-  const { productIds, address, phone } = await req.json()
+  try {
+    const { productIds, address, phone, name } = await req.json()
 
-  if (!productIds || productIds.length === 0) {
-    return new NextResponse('Product ids are required', { status: 400 })
-  }
+    if (!productIds || productIds.length === 0) {
+      return new NextResponse('Product ids are required', { status: 400 })
+    }
 
-  const order = await prismadb.order.create({
-    data: {
-      storeId: params.storeId,
-      isPaid: true,
-      address,
-      phone,
-      orderItems: {
-        create: productIds.map((productId: string) => ({
-          product: {
-            connect: {
-              id: productId
+    const order = await prismadb.order.create({
+      data: {
+        storeId: params.storeId,
+        isPaid: true,
+        name,
+        address,
+        phone,
+        orderItems: {
+          create: productIds.map((productId: string) => ({
+            product: {
+              connect: {
+                id: productId
+              }
             }
-          }
-        }))
+          }))
+        }
       }
-    }
-  })
+    })
 
-  return NextResponse.json(
-    { url: `${process.env.FRONTEND_STORE_URL}/cart?success=1` },
+    return NextResponse.json(
+      { url: `${process.env.FRONTEND_STORE_URL}/cart?success=1` },
 
-    {
-      headers: corsHeaders
-    }
-  )
+      {
+        headers: corsHeaders
+      }
+    )
+  } catch (error) {
+    return NextResponse.json(
+      { url: `${process.env.FRONTEND_STORE_URL}/cart?canceled=1` },
+
+      {
+        headers: corsHeaders
+      }
+    )
+  }
 }
