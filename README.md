@@ -1,9 +1,9 @@
 # Project Title: Admin Ecommerce
 #### Video Demo:  <URL HERE>
 #### Description:
+This project is an Admin Panel built using Next.js, Tailwind CSS, Prisma, MySQL, and NextAuth. The admin panel is designed to manage various aspects of a web application, with seamless navigation and user experience.
 
-Key Features:
-
+#### Key Features:
 - We will be using Shadcn UI for the Admin!
 - Our admin dashboard is going to serve as both CMS, Admin and API!
 - You will be able to control mulitple vendors / stores through this single CMS! (For example you can have a "Shoe store" and a "Laptop store" and a "Suit store", and our CMS will generate API routes for all of those individually!)
