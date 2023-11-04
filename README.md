@@ -1,3 +1,7 @@
+# Project Title: Admin Ecommerce
+#### Video Demo:  <URL HERE>
+#### Description:
+
 Key Features:
 
 - We will be using Shadcn UI for the Admin!
