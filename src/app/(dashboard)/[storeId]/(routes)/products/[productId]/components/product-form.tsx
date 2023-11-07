@@ -125,7 +125,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       router.push(`/${params.storeId}/products`)
       toast.success('Product deleted.')
     } catch (error: any) {
-      toast.error('Something went wrong.')
+      toast.error('Cannot delete product if already ordered.')
     } finally {
       setLoading(false)
       setOpen(false)
