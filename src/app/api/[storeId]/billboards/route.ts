@@ -11,7 +11,7 @@ export async function POST (
     const { userId } = auth()
     const body = await req.json()
 
-    const { label, imageUrl } = body
+    const { label, imageUrl, onHomepage } = body
 
     if (!userId) {
       return new NextResponse('Unauthenticated', { status: 401 })
@@ -44,6 +44,7 @@ export async function POST (
       data: {
         label,
         imageUrl,
+        onHomepage,
         storeId: params.storeId
       }
     })
@@ -61,13 +62,16 @@ export async function GET (
   { params }: { params: { storeId: string } }
 ) {
   try {
+    const { searchParams } = new URL(req.url)
     if (!params.storeId) {
       return new NextResponse('Store id is required', { status: 400 })
     }
 
+    const onHomepage = searchParams.get('onHomepage')
     const billboards = await prismadb.billboard.findMany({
       where: {
-        storeId: params.storeId
+        storeId: params.storeId,
+        onHomepage: onHomepage ? true : undefined
       }
     })
 

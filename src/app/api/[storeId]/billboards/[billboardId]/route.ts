@@ -73,7 +73,7 @@ export async function PATCH (
 
     const body = await req.json()
 
-    const { label, imageUrl } = body
+    const { label, imageUrl, onHomepage } = body
 
     if (!userId) {
       return new NextResponse('Unauthenticated', { status: 403 })
@@ -108,7 +108,8 @@ export async function PATCH (
       },
       data: {
         label,
-        imageUrl
+        imageUrl,
+        onHomepage
       }
     })
 
